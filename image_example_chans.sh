@@ -15,6 +15,8 @@ echo "Making fresh copy of the data"
 rm -r "${MS}"
 cp -r "${ORIGMS}" "${MS}"
 
+fix_ms_dir "${MS}"
+
 echo "Will attempt wscleani, will use $DATA as column"
 wsclean \
    -j 32 \
@@ -40,8 +42,6 @@ wsclean \
 
 echo "Imaging finished. Running jolly, including modification ot flags"
 
-fix_ms_dir "${MS}"
-
 jolly_tractor \
         tukey \
         --chunk-size 2500 \
@@ -51,7 +51,6 @@ jolly_tractor \
         --target-object sun \
         --apply-towards-object \
         --outer-width 0.5 \
-        --dry-run \
         --ignore-nyquist-zone 1 \
         "${MS}"
 
