@@ -1,4 +1,4 @@
-#!/usr/bin/bash -;
+#!/usr/bin/bash -l
 
 module load wsclean
 module load apptainer
