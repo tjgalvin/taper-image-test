@@ -4,8 +4,9 @@ module load wsclean
 module load apptainer
 conda activate flint_main
 
-ORIGMS="/scratch3/gal16b/emu_download/uvw_test/scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam00_averaged_cal.leakage.ms_trans"
-MS="scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam00_averaged_cal.leakage.ms"
+BEAM=35
+ORIGMS="/scratch3/gal16b/emu_download/uvw_test/scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms_trans"
+MS="scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms"
 AEGEAN="/scratch3/gal16b/containers/aegean.sif"
 DATA="DATA"
 CORRECT="TEST"
@@ -36,8 +37,8 @@ wsclean \
    -channel-range 4 9 \
    -local-rms \
    -local-rms-window 80 \
-   -intervals-out 3 \
-   -name "all_${DATA}_column_subchan" \
+   -intervals-out 2 \
+   -name "all_beam${BEAM}_${DATA}_column_subchan" \
    "${MS}"
 
 echo "Imaging finished. Running jolly, including modification ot flags"
@@ -74,8 +75,8 @@ wsclean \
    -channel-range 4 9 \
    -local-rms \
    -local-rms-window  80 \
-   -intervals-out 3 \
-   -name "all_${CORRECT}_column_subchan" \
+   -intervals-out 2 \
+   -name "all_beam${BEAM}_${CORRECT}_column_subchan" \
    "${MS}"
 
 for i in *image.fits
