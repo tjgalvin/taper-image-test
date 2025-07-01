@@ -85,6 +85,6 @@ echo "linmos.primarybeam.ASKAP_PB.image = ${HOLOFILE}" >>  "${DATAPARSET}"
     
 cat "${DATAPARSET}"
 
-apptainer run "${YANDA}" linmos -c "${DATAPARSET
+apptainer run "${YANDA}" linmos -c "${DATAPARSET}"
 apptainer run "${AEGEAN}" BANE --cores 4 --stripes 3 "${OUTPUT}/example_testcolumn_image.fits"
 apptainer run $AEGEAN aegean --maxsummit 5 --nocov --autoload "${OUTPUT}/example_testcolumn_image.fits"
