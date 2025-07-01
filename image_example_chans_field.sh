@@ -1,20 +1,35 @@
 #!/usr/bin/bash -l
+#SBATCH --job-name=flint
+#SBATCH --export=NONE
+#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks=1
+#SBATCH --mem=32GB
+#SBATCH --time=1-23:00:00
+#SBATCH -A OD-207757
+#SBATCH --array=0-36%36
 
 module load wsclean
 module load apptainer
 conda activate flint_main
 
-BEAM=35
-ORIGMS="/scratch3/gal16b/emu_download/uvw_test/scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms_trans"
-MS="scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms"
+RAW="/scratch3/gal16b/emu_download/raw/47138"
+OUTPUT="Transform"
+
+if [[ ! -e "${OUTPUT}" ]]
+then
+   mkdir "${OUTPUT}"
+fi
+
+BEAM=$(printf "%02d" "${SLURM_ARRAY_TASK_ID}")
+ORIGMS="${RAW}/scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms"
+MS="${OUTPUT}/scienceData.EMU_1141-55.SB47138.EMU_1141-55.beam${BEAM}_averaged_cal.leakage.ms"
 AEGEAN="/scratch3/gal16b/containers/aegean.sif"
+CASA="/scratch3/gal16b/containers/casa_ks9-5.8.0.sif"
 DATA="DATA"
 CORRECT="TEST"
 
-
-echo "Making fresh copy of the data"
-rm -r "${MS}"
-cp -r "${ORIGMS}" "${MS}"
+apptainer run "${CASA}" casa --nogui -c "mstransform(vis='${ORIGMS}',outputvis='${MS}',datacolumn='all')"
+exit 0
 
 fix_ms_dir "${MS}"
 
