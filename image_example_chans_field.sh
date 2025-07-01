@@ -29,14 +29,13 @@ DATA="DATA"
 CORRECT="TEST"
 
 apptainer run "${CASA}" casa --nogui -c "mstransform(vis='${ORIGMS}',outputvis='${MS}',datacolumn='all')"
-exit 0
 
 fix_ms_dir "${MS}"
 
 echo "Will attempt wscleani, will use $DATA as column"
 wsclean \
    -j 32 \
-   -size 11128 11128 \
+   -size 7128 7128 \
    -scale 2.5asec \
    -weight briggs -0.5 \
    -pol I \
@@ -74,7 +73,7 @@ jolly_tractor \
 echo "Running wsclean on modified data and flags"
 wsclean \
    -j 32 \
-   -size 11128 11128 \
+   -size 7128 7128 \
    -scale 2.5asec \
    -weight briggs -0.5 \
    -pol I \
