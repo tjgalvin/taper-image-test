@@ -93,7 +93,7 @@ wsclean \
    -name "all_beam${BEAM}_${CORRECT}_column_subchan" \
    "${MS}"
 
-for i in *image.fits
+for i in "${OUTPUT}/all_beam${BEAM}"*image.fits
 do 
 	apptainer run $AEGEAN BANE --cores 4 --stripes 3 $i
 	apptainer run $AEGEAN aegean --maxsummit 5 --nocov --autoload "$i"
