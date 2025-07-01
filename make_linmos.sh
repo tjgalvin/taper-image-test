@@ -14,6 +14,7 @@ module load apptainer
 OUTPUT="Transform"
 HOLOFILE="/scratch3/gal16b/emu_download/raw/47138/LinmosBeamImages/akpb.iquv.closepack36.54.943MHz.SB45636.cube.fits"
 YANDA="/scratch3/gal16b/containers/yanda/yandasoft_development_20240819.sif"
+AEGEAN="/scratch3/gal16b/containers/aegean.sif"
 
 images=$(ls --format=commas "${OUTPUT}/all_beam"??"_DATA"*"-image.fits" | sed -e 's| ||g')
 
@@ -47,7 +48,7 @@ echo "linmos.primarybeam.ASKAP_PB.image = ${HOLOFILE}" >>  "${DATAPARSET}"
 cat "${DATAPARSET}"
 
 apptainer run "${YANDA}" linmos -c "${DATAPARSET}"
-
+apptainer run "${AEGEAN}" BANE --cores 4 --stripes 3 "${OUTPUT}/example_datacolumn_image.fits"
 
 
 # -----------------------------------------------------------
@@ -84,3 +85,4 @@ echo "linmos.primarybeam.ASKAP_PB.image = ${HOLOFILE}" >>  "${DATAPARSET}"
 cat "${DATAPARSET}"
 
 apptainer run "${YANDA}" linmos -c "${DATAPARSET
+apptainer run "${AEGEAN}" BANE --cores 4 --stripes 3 "${OUTPUT}/example_testcolumn_image.fits"
