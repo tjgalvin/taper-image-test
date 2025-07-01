@@ -52,7 +52,7 @@ wsclean \
    -local-rms \
    -local-rms-window 80 \
    -intervals-out 2 \
-   -name "all_beam${BEAM}_${DATA}_column_subchan" \
+   -name "${OUTPUT}/all_beam${BEAM}_${DATA}_column_subchan" \
    "${MS}"
 
 echo "Imaging finished. Running jolly, including modification ot flags"
@@ -90,7 +90,7 @@ wsclean \
    -local-rms \
    -local-rms-window  80 \
    -intervals-out 2 \
-   -name "all_beam${BEAM}_${CORRECT}_column_subchan" \
+   -name "${OUTPUT}/all_beam${BEAM}_${CORRECT}_column_subchan" \
    "${MS}"
 
 for i in "${OUTPUT}/all_beam${BEAM}"*image.fits
