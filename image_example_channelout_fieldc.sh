@@ -1,12 +1,12 @@
 #!/usr/bin/bash -l
 #SBATCH --job-name=flint
 #SBATCH --export=NONE
-#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=4
 #SBATCH --ntasks=1
 #SBATCH --mem=32GB
 #SBATCH --time=1-23:00:00
 #SBATCH -A OD-207757
-#SBATCH --array=0-36%36
+#SBATCH --array=0-73%73
 
 module load wsclean
 module load apptainer
@@ -44,7 +44,7 @@ wsclean \
    -niter 50000000 \
    -gridder wgridder \
    -auto-threshold 0.25 \
-   -parallel-gridding 129 \
+   -parallel-gridding 4 \
    -auto-mask 3.5 \
    -data-column "${DATA}" \
    -no-update-model-required \
@@ -84,7 +84,7 @@ wsclean \
    -nmiter 15 \
    -niter 50000000 \
    -gridder wgridder \
-   -parallel-gridding 129 \
+   -parallel-gridding 4 \
    -auto-threshold 0.25 \
    -auto-mask 3.5 \
    -no-update-model-required \
