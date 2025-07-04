@@ -1,12 +1,12 @@
 #!/usr/bin/bash -l
 #SBATCH --job-name=flint
 #SBATCH --export=NONE
-#SBATCH --cpus-per-task=4
+#SBATCH --cpus-per-task=16
 #SBATCH --ntasks=1
-#SBATCH --mem=32GB
+#SBATCH --mem=128GB
 #SBATCH --time=1-23:00:00
 #SBATCH -A OD-207757
-#SBATCH --array=0-73%73
+#SBATCH --array=0-36%36
 
 module load wsclean
 module load apptainer
@@ -40,12 +40,12 @@ wsclean \
    -weight briggs -0.5 \
    -pol I \
    -mgain 0.9 \
-   -nmiter 15 \
+   -nmiter 6 \
    -niter 50000000 \
    -gridder wgridder \
    -auto-threshold 0.25 \
-   -parallel-gridding 4 \
-   -auto-mask 3.5 \
+   -parallel-gridding 32 \
+   -auto-mask 4 \
    -data-column "${DATA}" \
    -no-update-model-required \
    -local-rms \
@@ -81,12 +81,12 @@ wsclean \
    -weight briggs -0.5 \
    -pol I \
    -mgain 0.9 \
-   -nmiter 15 \
+   -nmiter 6 \
    -niter 50000000 \
    -gridder wgridder \
-   -parallel-gridding 4 \
+   -parallel-gridding 32 \
    -auto-threshold 0.25 \
-   -auto-mask 3.5 \
+   -auto-mask 4 \
    -no-update-model-required \
    -data-column "${CORRECT}" \
    -local-rms \
@@ -98,11 +98,4 @@ wsclean \
     -join-channels \
     -name "${OUTPUT}/all_beam${BEAM}_${CORRECT}_column_subchan" \
    "${MS}"
-
-for i in "${OUTPUT}/all_beam${BEAM}"*image.fits
-do 
-	apptainer run $AEGEAN BANE --cores 4 --stripes 3 $i
-	apptainer run $AEGEAN aegean --maxsummit 5 --nocov --autoload "$i"
-done
-
 
